@@ -13,6 +13,17 @@ import Collections from "@/pages/Collections";
 import Cart from "@/pages/Cart";
 import About from "@/pages/About";
 import Profile from "@/pages/Profile";
+import Settings from "@/pages/Settings";       
+import EditProfile from "@/pages/EditProfile"; 
+import Address from "./pages/Address";
+import Payment from "@/pages/Payment";
+import OrderSuccess from "@/pages/OrderSuccess";
+
+// ✅ new settings sub-pages
+import HelpCenter from "@/pages/HelpCenter";
+import BankAndUPI from "@/pages/BankAndUPI";
+import ChangeLanguage from "@/pages/ChangeLanguage";
+import GoogleAuthCallback from "./components/GoogleAuthCallback";
 
 const queryClient = new QueryClient();
 
@@ -32,10 +43,20 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/collections" element={<Collections />} />
                 <Route path="/cart" element={<Cart />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/profile" element={<Profile />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/settings" element={<Settings />} />       {/* ✅ main settings */}
+                <Route path="/settings/help" element={<HelpCenter />} /> {/* ✅ Help Centre */}
+                <Route path="/settings/bank-upi" element={<BankAndUPI />} /> {/* ✅ Bank & UPI */}
+                <Route path="/settings/language" element={<ChangeLanguage />} /> {/* ✅ Change Language */}
+                <Route path="/profile/edit" element={<EditProfile />} />
+                <Route path="/address" element={<Address />} />
+                <Route path="/payment" element={<Payment />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
+                <Route path="/auth/google/success" element={<GoogleAuthCallback />} />
               </Route>
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
+              {/* Catch-all for 404 */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
