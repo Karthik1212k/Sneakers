@@ -19,6 +19,7 @@ import { useAuth } from "@/store/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { formatINR } from "@/lib/utils";
+import {useCart} from "."
 
 export default function ProductCard({
   product,
@@ -29,6 +30,7 @@ export default function ProductCard({
 }) {
   const [imgError, setImgError] = useState(false);
   const { user, addToWishlist, removeFromWishlist } = useAuth();
+  const {addToCart}= useCart();
   const navigate = useNavigate();
 
   if (imgError || !product.image) return null;
@@ -36,21 +38,24 @@ export default function ProductCard({
   // Check if product is already in wishlist
   const isWishlisted = user?.wishlist?.some((p) => p.id === product.id);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!user) {
-      toast.error("Please sign in to add items to cart");
-      navigate("/profile");
+      alert("You must be logged in to add items to the cart.");
+      navigate("/login");
       return;
     }
-    onAdd?.(product);
-    toast.success(`${product.name} added to cart!`);
+    const success = await addToCart(product);
+    if (success) {
+      alert("Product added to cart!");
+    } else {
+      alert("Failed to add product to cart. Please try again.");
+    }
   };
 
   const handleWishlistToggle = () => {
     if (!user) {
       toast.error("Please sign in to use wishlist");
-      navigate("/profile");
-      return;
+      return; // ❌ no redirect either
     }
 
     if (isWishlisted) {
